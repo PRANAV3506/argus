@@ -22,5 +22,4 @@ for file in files:
         num_words = num_words + len(words)
 
 print(num_pages)
-print(" ")
 print(num_words)
