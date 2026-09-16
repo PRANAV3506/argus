@@ -1,25 +1,44 @@
 from pathlib import Path
 from pypdf import PdfReader
-# Set the path to your directory (use '.' for the current directory)
-dir_path = Path('data')
-
-# List only files
-files = [f for f in dir_path.iterdir() if f.is_file()]
-print(files)
-print(len(files))
 
 
-# Load the PDF file
-num_pages = 0
-num_words = 0
-# Extract and print text from all pages
-for file in files:
-    reader = PdfReader(file)
-    for page_num, page in enumerate(reader.pages):
-        num_pages = num_pages + 1
-        text = page.extract_text()
-        words = text.split()
-        num_words = num_words + len(words)
+def load():
+    """Load all PDF files from the data directory."""
+    dir_path = Path("data")
+    files = [f for f in dir_path.iterdir() if f.is_file()]
+    
+    return files
 
-print(num_pages)
-print(num_words)
+
+def count(files):
+    """Count total pages and words across all files."""
+    num_pages = 0
+    num_words = 0
+
+    for file in files:
+        reader = PdfReader(file)
+
+        for page in reader.pages:
+            num_pages += 1
+
+            text = page.extract_text()
+
+            if text:
+                words = text.split()
+                num_words += len(words)
+
+    return num_pages, num_words
+
+
+def report(num_pages, num_words):
+    """Print the final report."""
+    print("Total pages:", num_pages)
+    print("Total words:", num_words)
+
+
+# Main program
+files = load()
+
+num_pages, num_words = count(files)
+
+report(num_pages, num_words)
