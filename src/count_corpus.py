@@ -8,18 +8,19 @@ files = [f for f in dir_path.iterdir() if f.is_file()]
 print(files)
 print(len(files))
 
-first_file = files[0]
-# with open(first_file, "r", encoding="utf-8") as file:
-#     content = file.read()
-#     print(content)
-
-
 
 # Load the PDF file
-reader = PdfReader(first_file)
-
+num_pages = 0
+num_words = 0
 # Extract and print text from all pages
-for page_num, page in enumerate(reader.pages):
-    text = page.extract_text()
-    print(f"--- Page {page_num + 1} ---")
-    print(text)
+for file in files:
+    reader = PdfReader(file)
+    for page_num, page in enumerate(reader.pages):
+        num_pages = num_pages + 1
+        text = page.extract_text()
+        words = text.split()
+        num_words = num_words + len(words)
+
+print(num_pages)
+print(" ")
+print(num_words)
